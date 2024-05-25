@@ -4,6 +4,19 @@ on:
   push:
 
 jobs:
+  component-scanning-job:
+    name: Component Scanning Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Code
+        uses: actions/checkout@v4
+
+      - name: Check the Node.js Version
+        run: node --version
+
+      - name: Install the Libraries or Node Modules
+        run: npm install
+
   build-job:
     name: Build Job
     runs-on: ubuntu-latest
