@@ -4,9 +4,37 @@ on:
   push:
 
 jobs:
+  component-scanning-job:
+    name: Component Scanning Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Code
+        uses: actions/checkout@v4
+
+      - name: Check the Node.js Version
+        run: node --version
+
+      - name: Install the Libraries or Node Modules
+        run: npm install
+
+      - name: Run the Component Scanning using npm audit tool
+        run: npm audit --json >> node-audit-report.json
+        # continue-on-error: true
+
+      - name: Verify the Component Scanning Report
+        run: ls -l node-audit-report.json
+      
+      - name: Upload the Component Scanning Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-audit-report
+          path: node-audit-report.json
+        if: always()
+
   build-job:
     name: Build Job
     runs-on: ubuntu-latest
+    needs: component-scanning-job
     steps:
       - name: Step 1 in Build Job Echo Statement
         run: echo "Build Job is Running"
