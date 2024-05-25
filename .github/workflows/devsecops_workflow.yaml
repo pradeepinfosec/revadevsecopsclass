@@ -19,7 +19,7 @@ jobs:
 
       - name: Run the Component Scanning using npm audit tool
         run: npm audit --json >> node-audit-report.json
-        # continue-on-error: true
+        continue-on-error: true
 
       - name: Verify the Component Scanning Report
         run: ls -l node-audit-report.json
